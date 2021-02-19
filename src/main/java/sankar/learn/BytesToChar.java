@@ -15,7 +15,7 @@ public class BytesToChar {
 		 * character is 16 bit in java. So how is 8 bit byte can supply enougf information for 16 bit char
 		 * from the java language spec: byte to char conversion
 		 * byte is first widened to int
-		 * and thn int is narrowed to char
+		 * and then int is narrowed to char
 		 */
 
 		byte b = 100;
@@ -25,7 +25,7 @@ public class BytesToChar {
 
 	@Test
 	public void allCharRepresentingBytes() {
-		byte b = -128; //range of byte is -18 to 127
+		byte b = -128; //range of byte is -128 to 127
 		while(b != 127) {
 			System.out.println((char)b); //0 to 127 is ascii characters
 			++b;
