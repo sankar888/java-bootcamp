@@ -14,3 +14,5 @@
     3. Amend your program so that no philosopher ever starves.
 
     4. Write a program to provide a starvation-free solution for any number of philosophers n.
+
+[Solutions to qustions](https://www.coursehero.com/file/10721520/sol01/)

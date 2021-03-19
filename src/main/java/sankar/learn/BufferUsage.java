@@ -1,7 +1,7 @@
 package sankar.learn;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ import java.nio.CharBuffer;
 public class BufferUsage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BufferUsage.class);
 
-    @After
+    @AfterEach
     public void after() {
         System.out.println("<---------------------------------------------------------------->");
         System.out.println("\n");

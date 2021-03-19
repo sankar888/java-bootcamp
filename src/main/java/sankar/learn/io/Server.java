@@ -1,6 +1,5 @@
 package sankar.learn.io;
 
-import com.sun.xml.internal.stream.StaxErrorReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

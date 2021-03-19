@@ -1,13 +1,11 @@
 package sankar.learn.concurrentprogramming;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class BasicThreadUsage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicThreadUsage.class);
@@ -18,7 +16,8 @@ public class BasicThreadUsage {
         //demo.threadPriorityDemo();
         //demo.threadStateDemo();
         //demo.threadGroupDemo();
-        demo.threadJoinDemo();
+        //demo.threadJoinDemo();
+        demo.daemonThreadDemo();
     }
 
     /**
@@ -229,6 +228,18 @@ public class BasicThreadUsage {
             LOGGER.warn("Thread interrupted while waiting for completion ", e);
         }
         LOGGER.info("This message will print after 4 secs waiting for the thread {}, to completed. Since join(4000) blocks the [main] thread execution for 4 secs", th.getName());
+    }
+
+    private void daemonThreadDemo() {
+        Runnable r1 = () -> {
+            Thread th = Thread.currentThread();
+            countDownToZero(5, Duration.ofSeconds(2));
+            System.out.println(String.format("Thread %s with priority %d completed", th.getName(), th.getPriority()));
+        };
+        Thread th = new Thread(r1);
+        th.setDaemon(true); //the jdk waits only for non-daemon threads
+        th.start();
+        LOGGER.info("Main execution Completed, and the execution exits");
     }
 
     private static void countDownToZero(int from, Duration pauseInBetween) {

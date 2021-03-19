@@ -20,3 +20,9 @@ A code unit is the unit of storage of a part of an encoded code point. In UTF-8 
 - [Unicode Points](http://tutorials.jenkov.com/unicode/index.html)
 - [Why all unicode cannot be represented in char](https://codeahoy.com/2016/05/08/the-char-type-in-java-is-broken/)
 - [Supplementary characters in java](https://www.oracle.com/technical-resources/articles/javase/supplementary.html)
+
+### Usage of java optional
+java optional is container object which may or may not contain a non-null value. If a value is present, **isPresent()** will return true and **get()** will return the value.
+Optional is intended to be used with java stream api and not in method parameters or return values or getter or setter 
+- [java optonal api documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)
+- [How to use optional](https://dzone.com/articles/using-optional-correctly-is-not-optional)
