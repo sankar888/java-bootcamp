@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class FloatVsBigDecimal {
     /**
@@ -105,8 +106,47 @@ public class FloatVsBigDecimal {
     }
 
     @Test
-    public void roundBigDecimal() {
-        BigDecimal a = BigDecimal.valueOf(12345, 3); //12.345
-        //TODO
+    public void calculateMaturityAmount() {
+        /**
+         * Suppose we have a principal amount p,
+         * Calculate the final maturity amount, for  particular interest percentage
+         */
+        BigDecimal principal = new BigDecimal("1000.25");
+        BigDecimal interestPer365Days = new BigDecimal("7.05");
+
+        //maturity amount for one month, 30 days
+        //(principal * interest / 365) * 30
+        principal.multiply(interestPer365Days).divide(BigDecimal.valueOf(365)).multiply(BigDecimal.valueOf(30)).toPlainString();
+
     }
+
+    @Test
+    public void toValueMethods() {
+        BigDecimal a = BigDecimal.valueOf(10003, 3);
+        System.out.printf("a.toPlainString() %s, a.toString() %s, toEngineeringString() %s, toBigInteger() %s\n",
+                a.toPlainString(), a.toString(), a.toEngineeringString(), a.toBigInteger());
+        BigDecimal b = BigDecimal.valueOf(10003, 12);
+        System.out.printf("toPlainString() %s, toString() %s, toEngineeringString() %s, toBigInteger() %s\n",
+                b.toPlainString(), b.toString(), b.toEngineeringString(), b.toBigInteger());
+        /**
+         * toPlainString() - prints the number without exponential notation like 2.3E4
+         * toEngineeringString() - prints the number with exponential notation if needed
+         * toBigInteger() - drops the decimal part
+         */
+
+        System.out.printf("toBigIntegerExact() %s", a.toBigIntegerExact());
+        /**
+         * The java.math.BigDecimal.toBigIntegerExact() is an inbuilt method in java that converts this BigDecimal to a BigInteger, checking for lost information.
+         * An exception is thrown if this BigDecimal has a nonzero fractional part.
+         */
+    }
+
+    @Test
+    public void bigDecimalOperations() {
+        BigDecimal a = new BigDecimal("356.345");
+        BigDecimal res = a.divide(new BigDecimal("0.1"));
+        System.out.println(res);
+    }
+
+
 }

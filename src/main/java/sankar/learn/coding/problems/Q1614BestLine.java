@@ -1,6 +1,8 @@
 package sankar.learn.coding.problems;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class Q1614BestLine {
@@ -24,16 +26,17 @@ public class Q1614BestLine {
 
     public static void main(String[] args) {
         List<Coordinate> coords = new ArrayList<>();
-        coords.add(Coordinate.from(1.0f, 1.0f));
-        coords.add(Coordinate.from(3.0f, 7.2f));
-        coords.add(Coordinate.from(3.3f, -3.4f));
-        coords.add(Coordinate.from(6.2f, 1.0f));
-        coords.add(Coordinate.from(2.0f, -3.0f));
-        coords.add(Coordinate.from(2.0f, -4.0f));
-        coords.add(Coordinate.from(8.4f, 1.0f));
-        coords.add(Coordinate.from(9.0f, 2.34f));
+        //coords.add(Coordinate.from(1.0f, 1.0f));
+        //coords.add(Coordinate.from(3.0f, 7.2f));
+        //coords.add(Coordinate.from(3.3f, -3.4f));
+         coords.add(Coordinate.from(6.2f, 1.0f));
+        //coords.add(Coordinate.from(2.0f, -3.0f));
+         coords.add(Coordinate.from(2.0f, -4.0f));
+        //coords.add(Coordinate.from(8.4f, 1.0f));
+        //coords.add(Coordinate.from(9.0f, 2.34f));
         //Line l = Line.from(Coordinate.from(1.0f, 1.0f), Coordinate.from(3.3f, -3.4f));
         //System.out.println(getCountOfPointsInLine(l, coords));
+        //TODO: mathematical problem: a line should have two points, but the above two points (6.2,1.0) and (2.0, -4.0) has only one point crossing
         solve(coords);
     }
 
@@ -63,10 +66,13 @@ public class Q1614BestLine {
     }
 
     static final class Line {
-        private float yIntercept;
-        private float slope;
+        private BigDecimal yIntercept;
+        private BigDecimal slope;
+        private BigDecimal xIntercept;
+        private boolean isVertical;
         private Coordinate c1;
         private Coordinate c2;
+        private static final MathContext context = new MathContext(5, RoundingMode.HALF_EVEN);
 
         public static Line from(Coordinate c1, Coordinate c2) {
             return new Line(c1, c2);
@@ -75,24 +81,46 @@ public class Q1614BestLine {
         private Line(Coordinate c1, Coordinate c2) {
             this.c1 = c1;
             this.c2 = c2;
-            //slope = (y2 - y1)/(x2- x1)
-            slope = (c2.getY() - c1.getY())/(c2.getX() - c1.getX());
-            //y-intercept => y=mx+b => b = y-(mx)
-            yIntercept = c1.getY() - (slope * c1.getX());
+
+            if (c2.getX().compareTo(c1.getX()) == 0) {
+                /**
+                 * This problem gives raise to a specific problem handling division by zero. what if we have infinite slope,
+                 * We won't have a y-intercept. vertical lines are represented by x intercept x = x1
+                 */
+                xIntercept = c1.getX();
+                isVertical = true;
+            } else {
+                //slope = (y2 - y1)/(x2- x1)
+                slope = c2.getY().subtract(c1.getY()).divide(c2.getX().subtract(c1.getX()), context);
+                //y-intercept => y=mx+b => b = y-(mx)
+                yIntercept = c1.getY().subtract(slope.multiply(c1.getX()));
+            }
         }
 
-        public float getyIntercept() {
+        public BigDecimal getyIntercept() {
             return yIntercept;
         }
 
-        public float getSlope() {
+        public BigDecimal getSlope() {
             return slope;
+        }
+
+        public BigDecimal getxIntercept() {
+            return xIntercept;
+        }
+
+        public boolean isVerticalLine() {
+            return isVertical;
         }
 
         public boolean crossesCoordinate(Coordinate c) {
             //y = mx + b;
-            float y = (slope * c.getX()) + yIntercept;
-            return (Math.round(y*1000) == Math.round(c.getY()*1000)) ? true : false;
+            if (isVertical) {
+                return c.getX().compareTo(xIntercept) == 0;
+            } else {
+                BigDecimal y = slope.multiply(c.getX(), context).add(yIntercept);
+                return y.compareTo(c.getY()) == 0;
+            }
         }
 
         @Override
@@ -100,17 +128,21 @@ public class Q1614BestLine {
             if (this == o) return true;
             if (!(o instanceof Line)) return false;
             Line line = (Line) o;
-            return Float.compare(line.getyIntercept(), getyIntercept()) == 0 && Float.compare(line.getSlope(), getSlope()) == 0;
+            return isVertical ? ((Line) o).getxIntercept().compareTo(xIntercept) == 0 : line.getyIntercept().compareTo(getyIntercept()) == 0 && line.getSlope().compareTo(getSlope()) == 0;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getyIntercept(), getSlope());
+            return Objects.hash(getyIntercept(), getSlope(), getxIntercept(), isVertical);
         }
 
         @Override
         public String toString() {
             return "Line{" +
+                    "yIntercept=" + yIntercept +
+                    ", slope=" + slope +
+                    ", xIntercept=" + xIntercept +
+                    ", isVertical=" + isVertical +
                     ", c1=" + c1 +
                     ", c2=" + c2 +
                     '}';
@@ -118,23 +150,23 @@ public class Q1614BestLine {
     }
 
     static final class Coordinate {
-        private float x;
-        private float y;
+        private BigDecimal x;
+        private BigDecimal y;
 
         private Coordinate(float x, float y) {
-            this.x = x;
-            this.y = y;
+            this.x = new BigDecimal(Float.toString(x));
+            this.y = new BigDecimal(Float.toString(y));
         }
 
         public static Coordinate from(float x, float y) {
             return new Coordinate(x, y);
         }
 
-        public float getX() {
+        public BigDecimal getX() {
             return x;
         }
 
-        public float getY() {
+        public BigDecimal getY() {
             return y;
         }
 
