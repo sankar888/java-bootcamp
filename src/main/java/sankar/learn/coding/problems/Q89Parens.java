@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Implement an algorithm to print all valid (eg: properly opened and closed) combinations of n pairs of parentheses
@@ -29,13 +30,13 @@ public class Q89Parens {
      *
      * if p(x) = [e0, e1] is elements for input x, then elements for x+1 would be
      * a p(x) b , p(X) a b, a b p(x)
-     *
+     * a = (, b = ), P(x-1)
      * Example:- input x = 2
      * for x=1 => p(x-1) = [], following the a p(x) b | p(X) a b | a b p(x) pattern and then de duplicating, we get
-     * p(1)= () | () | (), after de-duplicating we get, p(1) = ()
+     * p(1)= () | () | (), after de-duplicating we get, p(1) = () , p(2) = (()) | ()() | ()() => (()) | ()()
      *
      * for x=2 => p(x-1) = () , following the a p(x) b | p(X) a b | a b p(x) pattern and then de duplicating, we get
-     * p(2) = (()) | ()() | ()() after de-duplicating we get, p(2) = (()), ()()
+     * p(2) = (()) | ()() | ()() after de-duplicating we get, p(2) = (()), ()(), p(3) = p(2) * () =>  a p(x) b | p(X) a b | a b p(x) => ((()))), (()()) | (())() , ()()() | ()(()), ()()()
      *
      * for x=3 => p(x-1) = (()), ()(),  following the a p(x) b | p(X) a b | a b p(x) pattern and then de duplicating, we get
      * p(3) = ((())), (()()) | (())(), ()()() | ()(()), ()()() after de-duplicating , p(3) = ((())), (()()), (())(), ()()(), ()(())
@@ -66,11 +67,20 @@ public class Q89Parens {
         return Collections.unmodifiableSet(pairs);
     }
 
+    private static Set<String> generateParantheses(int noOfPairs) {
+        Preconditions.checkArgument(noOfPairs > 0, "Parantheses count should be greater than zero.");
+        Stack<Set<String>> stack = new Stack<>();
+        stack.add(new HashSet<>());
+        for (int i=1; i <= noOfPairs; i++) {
+            //TODO: can we achieve the same without using recursion
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         solve(2);
         solve(3);
         solve(4);
-        //TODO: can we achieve the same without using recursion,
         //TODO: could we avoid using set which might check every time of insertion. could we overcome this duplicate checking,
         //TODO: big(0) calculation for different types of solutions
     }
