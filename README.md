@@ -26,3 +26,7 @@ java optional is container object which may or may not contain a non-null value.
 Optional is intended to be used with java stream api and not in method parameters or return values or getter or setter 
 - [java optonal api documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)
 - [How to use optional](https://dzone.com/articles/using-optional-correctly-is-not-optional)
+
+### ToDo
+- Learn about regex and do a thorough hands on using regex in java
+- Lear about the java 8 functional style / computational methods present in collections

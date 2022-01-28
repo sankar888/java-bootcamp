@@ -1,6 +1,7 @@
 package sankar.learn.snippets;
 
 import org.junit.jupiter.api.Test;
+import sankar.learn.datastructures.tree.BinaryMaxHeap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,5 +22,41 @@ public class Snippets {
         int[] arr = {1,2,3,4,5,6};
         arr[0] = 0;
         System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    public void printBinaryHeap() {
+        int[] arr = {7,5,3,2,1,0,-1,-2,-3,-3,-4,-5,-6,-7,-8, -9};
+        for (int i=0; i < arr.length; i=(2*i)+1) {
+            for (int j=i; j < (2*i)+1 && j < arr.length; j++) {
+                System.out.printf("%s\t",arr[j]);
+            }
+            System.out.println("");
+        }
+    }
+
+    @Test
+    public void testBinaryHeap() {
+        List<Integer> list = Arrays.asList(1,2,10,4,5,6,8);
+        BinaryMaxHeap<Integer> tree = new BinaryMaxHeap<>(list);
+        System.out.println(tree.toString());
+        System.out.println(tree.size());
+        System.out.println(tree.isEmpty());
+        System.out.println(tree.peekMax());
+    }
+
+    @Test
+    public void testParentIndexFindingAlgo() {
+        System.out.println(0%2);
+        int res = 1/2;
+        System.out.println(res);
+    }
+
+    @Test
+    public void testDivision() {
+        int res = 7/2;
+        System.out.println(res);
+        System.out.printf("4/2 = %d \n", 4/2);
+        System.out.printf("5/2 = %d \n", 5/2);
     }
 }
