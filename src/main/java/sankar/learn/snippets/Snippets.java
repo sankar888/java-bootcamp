@@ -3,6 +3,10 @@ package sankar.learn.snippets;
 import org.junit.jupiter.api.Test;
 import sankar.learn.datastructures.tree.BinaryMaxHeap;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,5 +62,21 @@ public class Snippets {
         System.out.println(res);
         System.out.printf("4/2 = %d \n", 4/2);
         System.out.printf("5/2 = %d \n", 5/2);
+    }
+
+    @Test
+    public void getHelmChartName() {
+        //List<String> charts = new ArrayList<>();
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/resources/charts.yaml"))) {
+            String line;
+            while((line = reader.readLine()) != null) {
+                String[] parts = line.split("/");
+                int partsLength = parts.length;
+                String chartName = parts[partsLength-2];
+                System.out.println(chartName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
