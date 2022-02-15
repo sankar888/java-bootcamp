@@ -79,4 +79,11 @@ public class Snippets {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testArrayFill() {
+        Integer[] arr = new Integer[10];
+        Arrays.fill(arr, 1, 3, 6);
+        System.out.println(Arrays.asList(arr));
+    }
 }

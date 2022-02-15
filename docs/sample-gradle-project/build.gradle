@@ -1,0 +1,6 @@
+project.description "Sample groovy project"
+project.version "1.2.3"
+
+println("the project version is ${project.version}")
+println("the project version is ${version}")
+println("the project name is ${name}")
