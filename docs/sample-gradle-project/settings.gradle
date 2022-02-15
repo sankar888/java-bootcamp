@@ -1,0 +1,5 @@
+settings.rootProject.setName("sample-gradle-project0")
+println("the path is ${settings.rootProject.path}")
+
+println("rootDir exists ${settings.rootDir.exists()}")
+println("root dir ${rootDir}")
